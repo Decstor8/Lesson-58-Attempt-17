@@ -1,6 +1,5 @@
-import React from "react";
 
-interface ButtonConfig {
+export interface ButtonConfig {
     type: string;
     label: string;
     onClick: () => void;

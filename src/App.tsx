@@ -1,35 +1,54 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from 'react';
+import Appbar from "./components/Appbar/Appbar";
+import Modal from './components/Modal/Modal';
+import Alert from './components/Alert/Alert';
 
-function App() {
-  const [count, setCount] = useState(0)
+const App: React.FC = () => {
+    const [showModal, setShowModal] = useState(false);
+    const [showAlert, setShowAlert] = useState(true);
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    const cancelModal = () => {
+        setShowModal(false);
+    };
 
-export default App
+    const closeAlert = () => {
+        setShowAlert(false);
+    };
+
+    return (
+        <>
+            <header>
+                <Appbar />
+            </header>
+            <div className="container">
+                <h1>Занятие 58, всплывающее окно.</h1>
+
+                <button className="btn btn-primary" onClick={() => setShowModal(true)}>Открыть окно</button>
+
+                <Modal
+                show={showModal}
+                onClose={cancelModal}
+                title='Информация о модальном окне'
+                buttons={[
+                    { type: 'primary', label: 'Continue', onClick: () => console.log('clicked continue') },
+                    { type: 'danger', label: 'Close', onClick: () => console.log('clicked cancel') },
+                ]}
+                >
+                    <p>Мода́льное окно́ в графическом интерфейсе пользователя — окно,
+                    которое блокирует работу пользователя с родительским приложением
+                    до тех пор, пока пользователь это окно не закроет.</p>
+                </Modal>
+                {showAlert && (
+                <Alert type="warning" onDismiss={closeAlert}>
+                    This is a warning type alert with close button.
+                </Alert>
+                )}
+                <Alert type="success">
+                    This is a success type alert without close button.
+                </Alert>
+            </div>
+        </>
+    );
+};
+
+export default App;
